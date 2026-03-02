@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UI version="4.0">
+ <class>SplashScreenClass</class>
+ <widget class="QWidget" name="SplashScreenClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>560</width>
+    <height>320</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Loading</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/* ---- Splash Screen overall background ---- */
+QWidget#SplashScreenClass {
+    background-color: #1e1e2e;
+    border-radius: 12px;
+    border: 1px solid #313244;
+}
+
+/* ---- App title label ---- */
+QLabel#titleLabel {
+    color: #cdd6f4;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* ---- Subtitle / version label ---- */
+QLabel#subtitleLabel {
+    color: #a6adc8;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 12px;
+}
+
+/* ---- Status text ---- */
+QLabel#statusLabel {
+    color: #89b4fa;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 12px;
+}
+
+/* ---- Percent label ---- */
+QLabel#percentLabel {
+    color: #a6e3a1;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ---- Progress bar ---- */
+QProgressBar {
+    background-color: #313244;
+    border: none;
+    border-radius: 5px;
+    height: 10px;
+    text-align: center;
+    color: transparent;
+}
+QProgressBar::chunk {
+    background: qlineargradient(
+        x1:0, y1:0, x2:1, y2:0,
+        stop:0 #89b4fa, stop:1 #a6e3a1);
+    border-radius: 5px;
+}
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>8</number>
+   </property>
+   <property name="leftMargin">
+    <number>40</number>
+   </property>
+   <property name="topMargin">
+    <number>48</number>
+   </property>
+   <property name="rightMargin">
+    <number>40</number>
+   </property>
+   <property name="bottomMargin">
+    <number>40</number>
+   </property>
+   <!-- Title -->
+   <item>
+    <widget class="QLabel" name="titleLabel">
+     <property name="text">
+      <string>My Application</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <!-- Subtitle -->
+   <item>
+    <widget class="QLabel" name="subtitleLabel">
+     <property name="text">
+      <string>v1.0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <!-- Vertical spacer -->
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>60</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <!-- Status row: statusLabel + percentLabel -->
+   <item>
+    <layout class="QHBoxLayout" name="statusLayout">
+     <item>
+      <widget class="QLabel" name="statusLabel">
+       <property name="text">
+        <string>正在启动...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="percentLabel">
+       <property name="text">
+        <string>0%</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <!-- Progress bar -->
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</UI>

@@ -1,0 +1,4 @@
+<RCC>
+    <qresource prefix="startup_loading_app">
+    </qresource>
+</RCC>

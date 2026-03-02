@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UI version="4.0">
+ <class>MainWindowClass</class>
+ <widget class="QMainWindow" name="MainWindowClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>My Application</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QMainWindow {
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+}
+QMenuBar {
+    background-color: #181825;
+    color: #cdd6f4;
+}
+QStatusBar {
+    background-color: #181825;
+    color: #a6adc8;
+}
+   </string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="centralLayout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>24</number>
+    </property>
+    <property name="topMargin">
+     <number>24</number>
+    </property>
+    <property name="rightMargin">
+     <number>24</number>
+    </property>
+    <property name="bottomMargin">
+     <number>24</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="welcomeLabel">
+      <property name="text">
+       <string>欢迎使用 My Application</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QLabel {
+    color: #cdd6f4;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+}
+       </string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="hintLabel">
+      <property name="text">
+       <string>所有后端服务已就绪，可以开始使用。</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QLabel {
+    color: #a6adc8;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    font-size: 13px;
+}
+       </string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="mainSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>400</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>文件(&amp;F)</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>退出(&amp;X)</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</UI>
