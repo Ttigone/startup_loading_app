@@ -1,6 +1,3 @@
-// Copyright 2026 startup_loading_app. All rights reserved.
-// main.cpp — Application entry point.
-//
 // Startup sequence:
 //   1. Create QApplication.
 //   2. Create SplashScreen (visible immediately, fade-in animation).

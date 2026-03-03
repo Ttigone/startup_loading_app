@@ -1,13 +1,9 @@
-// Copyright 2026 startup_loading_app. All rights reserved.
-// main_window.cpp — Implementation of MainWindow.
-
 #include "main_window.h"
 #include "ui_main_window.h"
 
 namespace app {
 namespace ui {
 
-// ---------------------------------------------------------------------------
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui_(new Ui::MainWindowClass()) {
   ui_->setupUi(this);

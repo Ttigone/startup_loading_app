@@ -1,20 +1,5 @@
-// Copyright 2026 startup_loading_app. All rights reserved.
-// app_loader.h — High-performance asynchronous backend loader.
-//
-// Design patterns used:
-//   - Observer  : progress / status / error signals propagated to Qt GUI
-//   - Builder   : fluent RegisterService() chain
-//   - RAII      : worker thread joined in destructor
-//   - Singleton guard: NOT a singleton — instantiate once in main().
-//
-// Thread model:
-//   - GUI thread  : owns AppLoader, SplashScreen, MainWindow
-//   - Loader thread: one std::thread executing all IBackendService::Initialize()
-//                    sequentially (or in parallel if parallel_mode is enabled)
-//
-// Coding style: Google C++ Style Guide
-
-#pragma once
+#ifndef APP_LOADER_H
+#define APP_LOADER_H
 
 #include <atomic>
 #include <cstdint>
@@ -30,82 +15,71 @@
 namespace app {
 namespace core {
 
-// ---------------------------------------------------------------------------
-// LoadProgress  — snapshot emitted after each service completes
-// ---------------------------------------------------------------------------
 struct LoadProgress {
-  int     percent;     // 0-100
-  std::string message; // human-readable status text
+  int percent;
+  std::string message;
 };
 
-// ---------------------------------------------------------------------------
-// AppLoader
-//   Register backend services with RegisterService(), then call Start().
-//   Communicate results back to the Qt GUI layer via std::function callbacks
-//   (bridged to Qt signals inside SplashScreen).
-// ---------------------------------------------------------------------------
 class AppLoader {
  public:
-  // Callback types — called on the loader thread; post to Qt GUI thread via
-  // QMetaObject::invokeMethod with Qt::QueuedConnection.
   using ProgressCallback = std::function<void(LoadProgress)>;
   using FinishedCallback = std::function<void()>;
-  using ErrorCallback    = std::function<void(std::string /*service_name*/,
-                                               std::string /*error_msg*/)>;
+  using ErrorCallback = std::function<void(std::string /*service_name*/,
+                                           std::string /*error_msg*/)>;
 
   AppLoader();
   ~AppLoader();
 
-  // Non-copyable / non-movable.
   AppLoader(const AppLoader&) = delete;
   AppLoader& operator=(const AppLoader&) = delete;
 
-  // ---- Fluent builder interface ------------------------------------------
-
-  // Register a service to be loaded.  Ownership is transferred.
-  // Call before Start().  Returns *this for chaining.
+  // 注册加载服务, 所有权转移, 在 Start 前调用
   AppLoader& RegisterService(std::unique_ptr<IBackendService> service);
 
-  // Set callbacks (call before Start()).
+  // 设置回调, 在 Start 前调用
   AppLoader& OnProgress(ProgressCallback cb);
   AppLoader& OnFinished(FinishedCallback cb);
   AppLoader& OnError(ErrorCallback cb);
 
-  // ---- Lifecycle ---------------------------------------------------------
-
-  // Launch the loader thread.  Must be called once.
-  // pre-condition: at least one service registered, QApplication running.
+  // 只能调用一次
   void Start();
 
-  // Wait for completion (blocks calling thread).
+  // 等待加载完成, 供外部调用以阻塞等待加载完成, 也可在回调中处理逻辑,
+  // 例如进入主界面 NOTE 会阻塞调用线程
   void WaitForCompletion();
 
-  // Returns true if all services loaded successfully.
+  // 是否成功完成加载, 任务是否全部成功, 供外部调用以决定是否进入主界面
   bool IsSuccess() const;
 
-  // Shutdown all services (call before QApplication exits).
+  // 终止所有服务, 无论成功与否, 供外部调用以确保资源清理, exit 前调用
   void ShutdownAll();
 
  private:
-  // Worker function executed on loader_thread_.
+  // 加载线程函数
   void RunLoaderThread();
 
-  // Compute the total weight sum of all registered services.
+  // 计算总权重, 用于计算整体进度百分比
   uint32_t ComputeTotalWeight() const;
 
-  // Registered services — immutable after Start().
+  // 后端服务列表
   std::vector<std::unique_ptr<IBackendService>> services_;
 
-  // Callbacks.
+  // 进度回调
   ProgressCallback progress_cb_;
-  FinishedCallback finished_cb_;
-  ErrorCallback    error_cb_;
 
-  // Worker thread and sync primitives.
-  std::thread  loader_thread_;
-  std::mutex   mutex_;
+  // 完成回调
+  FinishedCallback finished_cb_;
+
+  // 错误回调
+  ErrorCallback error_cb_;
+
+  // 工作线程
+  std::thread loader_thread_;
+  std::mutex mutex_;
   std::atomic<bool> success_{true};
 };
 
 }  // namespace core
 }  // namespace app
+
+#endif  // APP_LOADER_H
